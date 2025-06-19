@@ -1,0 +1,151 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: index.php");
+    exit;
+}
+?>
+<?php
+session_start();
+
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeighborlyFix - Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+    }
+    nav {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+    nav a.logout {
+      color: red;
+      float: right;
+      margin-right: 20px;
+    }
+    .container {
+      padding: 20px;
+    }
+    .issue-form, .issue-list {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .issue-form input, .issue-form textarea, .issue-form select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .issue-form button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .issue-list table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .issue-list th, .issue-list td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NeighborlyFix</h1>
+    <p>Report Local Issues. Track Progress.</p>
+  </header>
+  <nav>
+    <a href="#report">Report Issue</a>
+    <a href="#track">Track Issues</a>
+    <a href="logout.php" class="logout">Logout</a>
+  </nav>
+  <div class="container">
+    <h2>Welcome, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h2>
+
+    <section id="report" class="issue-form">
+      <h2>Report an Issue</h2>
+      <form id="issueForm" method="POST" action="index.php" enctype="multipart/form-data">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+          <option value="pothole">Pothole</option>
+          <option value="water">Water Supply</option>
+          <option value="streetlight">Broken Streetlight</option>
+        </select>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" placeholder="Enter location" required />
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" placeholder="Describe the issue" required></textarea>
+        <label for="photo">Upload Photo:</label>
+        <input type="file" id="photo" name="photo" />
+        <button type="submit">Submit Report</button>
+      </form>
+    </section>
+
+    <section id="track" class="issue-list">
+      <h2>Track Reported Issues</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Issue ID</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="issueTableBody">
+          <!-- PHP can be used here to fetch and list issues -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <footer>
+    <p>&copy; <?php echo date("Y"); ?> NeighborlyFix. All rights reserved.</p>
+  </footer>
+</body>
+</html>
